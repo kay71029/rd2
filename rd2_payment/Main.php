@@ -31,8 +31,8 @@ function GetLastLotteryNews()
 $data = SelectUserAccount();
 $data2 = GetLastLotteryNews();
 
-if($data2 == null){
-    header("Location:Rest.php");
+if ($data2 == null) {
+    header("Location:ShowRestPage.php");
 }
 ?>
 <!DOCTYPE html>
@@ -136,7 +136,12 @@ if($data2 == null){
             <div class = "dataTable_wrapper">
                 <table width = "100%" class = "table table-striped table-bordered table-hover" id = "dataTables-example">
                     <thead>
-                    <tr>
+                    <tr align="center">
+                        <th align = "center" width = 40% colspan = 2>玩法一</th>
+                        <th align = "center" width = 40% colspan = 2>玩法二</th>
+                        <th></th>
+                    </tr>
+                    <tr align="center">
                         <th>單數</th>
                         <th>雙數</th>
                         <th>大</th>
@@ -145,23 +150,23 @@ if($data2 == null){
                     </tr>
                     </thead>
                     <thead>
-                     <form method = "post" action  = "DoRecord.php" id ="myform">
-                    <tr>
-                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitOdd"  id = "bitOdd" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
-                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitDouble" id = "bitDouble" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
-                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitBig" id = "bitBig" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
-                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitSmall" id = "bitSmall" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                    <form method = "post" action  = "DoRecord.php" id ="myform">
+                    <tr align="center">
+                        <th><input type = "number" class = "form-control"  aria-describedby = "basic-addon1" name = "bitOdd"  id = "bitOdd" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><input type = "number" class = "form-control"  aria-describedby = "basic-addon1" name = "bitDouble" id = "bitDouble" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><input type = "number" class = "form-control"  aria-describedby = "basic-addon1" name = "bitBig" id = "bitBig" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><input type = "number" class = "form-control"  aria-describedby = "basic-addon1" name = "bitSmall" id = "bitSmall" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
                         <th><span id="tatal" style="color:red"></span>  </th>
                     </tr>
                     </thead>
                     </tbody>
                 </table>
-                <button type = "submit" class = "btn btn-default navbar-btn" name = "bitOk" id = "bitOk">下注</button>
-                <input type = "hidden" name = "date" value = "<?php echo $date = date("Y-m-d");?>">
-                <input type = "hidden" name = "time" value = "<?php echo $time = date("H:i:s");?>">
-                <input type = "hidden" name = "id_code" value = "<?PHP echo $row3['id_code']; ?>">
-                <input type = "hidden" name = "ac_acount" value = "<?PHP echo $row['ac_acount']; ?>">
-                </form>
+                        <button type = "submit" class = "btn btn-default navbar-btn" name = "bitOk" id = "bitOk">下注</button>
+                        <input type = "hidden" name = "date" value = "<?php echo $date = date("Y-m-d");?>">
+                        <input type = "hidden" name = "time" value = "<?php echo $time = date("H:i:s");?>">
+                        <input type = "hidden" name = "id_code" value = "<?PHP echo $row3['id_code']; ?>">
+                        <input type = "hidden" name = "ac_acount" value = "<?PHP echo $row['ac_acount']; ?>">
+                    </form>
             </div>
             <button type = "submit" class = "btn btn-default navbar-btn" onclick="location.href='ShowAdminRecord.php'">下注紀錄</button>
         </div>
