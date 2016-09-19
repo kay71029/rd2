@@ -1,0 +1,227 @@
+<?php
+session_start();
+require("MySqlCconnect.php");
+date_default_timezone_set("Asia/Taipei");
+function SelectUserAccount()
+{
+    $db = DB();
+    $sql = "SELECT `ac_acount` FROM `admin` WHERE `ac_id` = :ac_id";
+    $result = $db->prepare($sql);
+    $result->bindParam(':ac_id', $_SESSION['ac_id']);
+    $result->execute();
+    $data = $result->fetchAll();
+    return $data;
+}
+
+function GetLastLotteryNews()
+{
+	$db = DB();
+	$sql = " SELECT IF((`open_time`-CURTIME()) <= 0,TRUE,FALSE) AS IS_OPEN,
+	    `id`, `id_code`, `date`, `fold_time`, `open_time`, `stop_time`, `lottery`
+	    FROM `LotteryNews`
+	    WHERE (`open_time`- CURTIME()) > 0 OR (`stop_time` - CURTIME()) > 0 AND `lottery` != '' AND `date` = CURDATE()
+	    ORDER BY (`open_time`- CURTIME()),(`stop_time`- CURTIME()) 
+	    LIMIT 1 ";
+	$result = $db->prepare($sql);
+	$result->execute();
+	$data2 = $result->fetchAll();
+	return $data2;
+}
+
+$data = SelectUserAccount();
+$data2 = GetLastLotteryNews();
+
+if($data2 == null){
+    header("Location:Rest.php");
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "UTF-8">
+    <title>簡易的彩卷系統</title>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+    <link href = "assets/css/bootstrap.min.css" rel = "stylesheet">
+</head>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript">  
+    $(function(){  
+        var bitOdd = $("#bitOdd");
+        var bitDouble = $("#bitDouble");
+        var bitBig = $("#bitBig");
+        var bitSmall = $("#bitSmall");
+        var tatal = $("#tatal");
+        bitOdd.change(function(){
+            var num1 = bitOdd.val();
+            var num2 = bitDouble.val();
+            var num3 = bitBig.val();
+            var num4 = bitSmall.val();
+            var sum = (num1-0) + (num2-0) + (num3-0) + (num4-0);
+            tatal.text(sum);  
+        });
+        bitDouble.change(function(){
+            var num1 = bitOdd.val();
+            var num2 = bitDouble.val();
+            var num3 = bitBig.val();
+            var num4 = bitSmall.val();
+            var sum = (num2-0) + (num1-0) + (num3-0) + (num4-0) ;
+            tatal.text(sum);  
+        }); 
+        bitBig.change(function(){
+            var num1 = bitOdd.val();
+            var num2 = bitDouble.val();
+            var num3 = bitBig.val();
+            var num4 = bitSmall.val();
+            var sum = (num2-0) + (num1-0) + (num3-0) + (num4-0) ;
+            tatal.text(sum);  
+        });  
+        bitSmall.change(function(){  
+            var num1 = bitOdd.val();
+            var num2 = bitDouble.val();
+            var num3 = bitBig.val();
+            var num4 = bitSmall.val();
+            var sum = (num2-0) + (num1-0) + (num3-0) + (num4-0) ;
+            tatal.text(sum);  
+        });  
+    });
+</script>
+<body>
+<nav class = "navbar navbar-inverse" align = right>
+    <div class = "container-fluid">
+        <div class = "navbar-header">
+            <button type = "button" class = "navbar-toggle collapsed" data-toggle="collapse" data-target = "#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class = "sr-only">Toggle navigation</span>
+                <span class = "icon-bar"></span>
+                <span class = "icon-bar"></span>
+                <span class = "icon-bar"></span>
+            </button>
+            <a class = "navbar-brand" href="Main.php">首頁</a>
+        </div>
+        <div class = "collapse navbar-collapse" id = "bs-example-navbar-collapse-1">
+            <ul class = "nav navbar-nav">
+                <li class = "active"><a href = "ShowDepositPage.php">入款<span class = "sr-only">(current)</span></a></li>
+                <li class = "active"><a href = "ShowWithdrawalPage.php">出款<span class = "sr-only">(current)</span></a></li>
+                <li class = "active"><a href = "ShowAccountDetailPage.php">查詢明細<span class = "sr-only">(current)</span></a></li>
+                <li class = "active"><a href = "ShowGamePage.php">開獎資訊<span class = "sr-only">(current)</span></a></li>
+            </ul>
+            <form action = "Logout.php">
+                <button class = "btn btn-default navbar-btn">登出</button>
+            </form>
+        </div>
+    </div>
+</nav>
+    <div class="container" id='page_header'>
+        <div class="starter-template">
+            <p class="lead" id="clock_title">倒數時間<br></p>
+            <div class="panel panel-default" data-toggle="tooltip" data-placement="top">
+                <div class="panel-body">
+                    <div class="lead" id="clock"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "panel panel-default" id='page_body'>
+        <div id="periodic_timer_minutes"></div>
+        <?php foreach($data2 as $row3){?>
+        <div class = "panel-heading">
+             第<?PHP echo $row3['id_code']; ?>期 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;開獎時間:<?PHP echo $row3['open_time']; ?> 
+        </div>
+        <?php }?>
+        <?php foreach($data as $row){?>
+        <div class = "panel-heading">
+            GAME ------您的額度：<?PHP echo $row['ac_acount']; ?>
+        </div>
+        <?php }?>
+        <div class = "panel-body">
+            <div class = "dataTable_wrapper">
+                <table width = "100%" class = "table table-striped table-bordered table-hover" id = "dataTables-example">
+                    <thead>
+                    <tr>
+                        <th>單數</th>
+                        <th>雙數</th>
+                        <th>大</th>
+                        <th>小</th>
+                        <th>總金額</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                     <form method = "post" action  = "DoRecord.php" id ="myform">
+                    <tr>
+                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitOdd"  id = "bitOdd" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitDouble" id = "bitDouble" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitBig" id = "bitBig" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><input type = "number"class = "form-control"  aria-describedby = "basic-addon1" name = "bitSmall" id = "bitSmall" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0"></th>
+                        <th><span id="tatal" style="color:red"></span>  </th>
+                    </tr>
+                    </thead>
+                    </tbody>
+                </table>
+                <button type = "submit" class = "btn btn-default navbar-btn" name = "bitOk" id = "bitOk">下注</button>
+                <input type = "hidden" name = "date" value = "<?php echo $date = date("Y-m-d");?>">
+                <input type = "hidden" name = "time" value = "<?php echo $time = date("H:i:s");?>">
+                <input type = "hidden" name = "id_code" value = "<?PHP echo $row3['id_code']; ?>">
+                <input type = "hidden" name = "ac_acount" value = "<?PHP echo $row['ac_acount']; ?>">
+                </form>
+            </div>
+            <button type = "submit" class = "btn btn-default navbar-btn" onclick="location.href='ShowAdminRecord.php'">下注紀錄</button>
+        </div>
+    </div>
+<script src = "assets/js/jquery.js"></script>
+<script src = "assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.1.7.2.js"></script>
+<script type="text/javascript" src="assets/js/jquery.syotimer.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="//cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<style type="text/css">
+    .starter-template {
+      padding: 40px 15px;
+      text-align: center;
+    }
+    .panel {
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #btn-reset {
+      margin-right: 10px;
+    }
+    #clock {
+      margin-bottom: 0;
+    }
+</style>
+<script type="text/javascript">
+    $('[data-toggle="tooltip"]').tooltip();
+        //確認是否已開獎
+        var is_open = (<?PHP echo $data2['0']['IS_OPEN'] ?> > 0) ? true : false;
+        console.log(is_open);//fordebug
+        //根據是否開獎決定要以那個時間倒數
+        var targetDateTime = new Date();
+        if(is_open){
+            $('#clock_title').text("已開獎，系統封牌中。請稍後再下注。");
+            $('#bitOk').prop('disabled',true);
+            targetDateTime = new Date(<?PHP echo '\''.$data2['0']['date'].' '.$data2['0']['stop_time'].'\''; ?>);
+        }else{
+            $('#clock_title').text("下注時間倒數");
+            $('#bitOk').prop('disabled',false);
+            targetDateTime = new Date(<?PHP echo '\''.$data2['0']['date'].' '.$data2['0']['open_time'].'\''; ?>);
+        }
+        console.log(new Date(targetDateTime)); //fordebug
+    
+        //使用 count down 套件倒數
+        var $clock = $('#clock');
+        $clock.countdown(targetDateTime,function(event) {
+            $(this).html(event.strftime('%M:%S'));
+        })
+        .on('finish.countdown', function(event){
+            //尚未開獎-->開獎   (跳出訊息之類的可以寫在這裡)
+            if(!is_open){
+                 $('#bitOk').prop('disabled',false);
+            }
+            //重載畫面 
+            location.reload();
+        });
+</script>
+</body>
+</html>
