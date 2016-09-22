@@ -5,6 +5,7 @@ header('Content-Type: text/html; charset=utf-8');
 $id = $_SESSION['ac_id'];
 $account = SelectUserAccount($id);
 $data2 = GetLastLotteryNews();
+$data = ShowAdminRecord();
 function SelectUserAccount($id)
 {
     $url = 'https://rd2-kay-yu.c9users.io/BankSystem/API/getUserAccount';
@@ -42,7 +43,16 @@ function GetLastLotteryNews()
     $data2 = $result->fetchAll();
     return $data2;
 }
-
+function ShowAdminRecord()
+{
+    $db = DB();
+    $sql = "SELECT * FROM `AdminRecord` WHERE `ac_id` = :ac_id ORDER BY `AdminRecord`.`id` DESC LIMIT 4";
+    $result = $db->prepare($sql);
+    $result->bindParam(':ac_id', $_SESSION['ac_id']);
+    $result->execute();
+    $data = $result->fetchAll();
+    return $data;
+}
 if ($data2 == null) {
     header("Location:ShowRestPage.php");
 }
@@ -155,7 +165,45 @@ if ($data2 == null) {
                         <input type = "hidden" name = "ac_acount" value = "<?PHP echo $row['ac_acount']; ?>">
                     </form>
             </div>
-            <button type = "submit" class = "btn btn-default navbar-btn" onclick="location.href='ShowAdminRecord.php'">下注紀錄</button>
+            <br>
+            <br>
+        <div class = "panel panel-default">
+        <div id="periodic_timer_minutes"></div>
+        <div class = "panel-heading">下注記錄----最新4筆資料</div>
+        <div class = "panel-body">
+            <div class = "dataTable_wrapper">
+                <table width = "100%" class = "table table-striped table-bordered table-hover" id = "dataTables-example">
+                    <thead>
+                    <tr>
+                        <th>序號</th>
+                        <th>期別</th>
+                        <th>日期</th>
+                        <th>下注時間</th>
+                        <th>玩法</th>
+                        <th>下注金額</th>
+                        <th>期望值</th>
+                        <th>狀態</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <?php foreach($data as $row){?>
+                    <tr>
+                        <td><?PHP echo $row['id']; ?></td>
+                        <td><?PHP echo $row['id_code']; ?></td>
+                        <td><?PHP echo $row['date']; ?></td>
+                        <td><?PHP echo $row['time']; ?></td>
+                        <td><?PHP echo $row['play']; ?></td>
+                        <td><?PHP echo $row['playMoney']; ?></td>
+                        <td><?PHP echo $row['winMoney']; ?></td>
+                        <td><?PHP echo $row['status']; ?></td>
+                    </tr>
+                    <?php }?>
+                    </thead>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
         </div>
     </div>
     <script src = "assets/js/jquery.js"></script>
