@@ -12,7 +12,6 @@ function SelectUserAccount()
     $data = $result->fetchAll();
     return $data;
 }
-
 function GetLastLotteryNews()
 {
 	$db = DB();
@@ -27,10 +26,8 @@ function GetLastLotteryNews()
 	$data2 = $result->fetchAll();
 	return $data2;
 }
-
 $data = SelectUserAccount();
 $data2 = GetLastLotteryNews();
-
 if ($data2 == null) {
     header("Location:ShowRestPage.php");
 }

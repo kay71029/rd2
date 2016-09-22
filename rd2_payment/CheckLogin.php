@@ -2,12 +2,10 @@
 session_start();
 require("MySqlCconnect.php");
 header('Content-Type: text/html; charset=utf-8');
-
 $id = substr(strip_tags(addslashes(trim($_POST['ac_id']))),0,20);
 $pw = addslashes($_POST['ac_pw']);
 $plen = strlen($pw);
-//$type = 0;
-checkLogin($id, $pw, $plen , $type);
+checkLogin($id, $pw, $plen);
 function checkLogin($id, $pw,$plen)
 {
     //帳號檢查

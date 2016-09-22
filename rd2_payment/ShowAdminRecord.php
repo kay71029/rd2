@@ -13,7 +13,6 @@ function ShowAdminRecord()
     return $data;
 }
 $data = ShowAdminRecord();
-
 ?>
 <!DOCTYPE html>
 <html>

@@ -14,14 +14,12 @@ $date = $_POST['date'];
 $time = $_POST['time'];
 $ac_acount = addslashes($_POST["ac_acount"]);
 
-//判斷數字不能為0
 if ($bitOdd == 0 && $bitDouble == 0 && $bitBig == 0 && $bitSmall == 0) {
     echo "<script>alert('尚未下注金額');</script>";
     header("Refresh:0.5; url = Main.php");
     exit();
 }
 
-//檢查數字
 function checkNum($Num)
 {
     if (!preg_match("/^([0-9]+)$/", $Num)) {
@@ -30,13 +28,11 @@ function checkNum($Num)
         exit();
     }
 }
-
 checkNum($bitOdd);
 checkNum($bitDouble);
 checkNum($bitBig);
 checkNum($bitSmall);
 
-//金額不能大於500
 if ($bitOdd > 500 || $bitDouble > 500 || $bitBig > 500 || $bitSmall > 500) {
     echo "<script>alert('單筆下注不能大於500');</script>";
     header("Refresh:0.5; url = Main.php");
@@ -44,10 +40,8 @@ if ($bitOdd > 500 || $bitDouble > 500 || $bitBig > 500 || $bitSmall > 500) {
 }
 
 DoRecord($ac_acount, $id_code, $ac_id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bitSmall);
-
 function DoRecord($ac_acount, $id_code, $ac_id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bitSmall)
 {
-    //計算賠率
     $expBitOdd = floor($bitOdd * 1.5);
     $expBitDouble = floor($bitDouble * 1.5);
     $expBitBig = floor($bitBig * 1.5);
@@ -127,7 +121,7 @@ function DoRecord($ac_acount, $id_code, $ac_id, $date, $time, $bitOdd, $bitDoubl
                 $result->bindParam(':expBitSmall', $expBitSmall);  
                 $result->execute();
             }
-            
+
             $sql = "UPDATE `admin` SET `ac_acount`= `ac_acount` - :ac_acount WHERE
                 `ac_id` = :ac_id ";
             $result = $db->prepare($sql);
@@ -144,4 +138,3 @@ function DoRecord($ac_acount, $id_code, $ac_id, $date, $time, $bitOdd, $bitDoubl
     header("Refresh:0.5; url = Main.php"); 
     }
 }
-  

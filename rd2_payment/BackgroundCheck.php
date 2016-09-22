@@ -4,7 +4,6 @@ require("MySqlCconnect.php");
 date_default_timezone_set("Asia/Taipei");
 ignore_user_abort(true);
 set_time_limit(0);
-
 function handle()
 {
     $db = DB();
@@ -20,14 +19,12 @@ function handle()
     $data = $result->fetchAll();
     
     foreach ($data as $row) {
-        
         $play = $row['play'];
         $parms_id = $row['id'];;
         $parms_winMoney = $row['winMoney'];
         $parms_status = '未結清';
         $parms_ac_acount = $row['ac_acount'];
         $parms_ac_id = $row['ac_id'];
-        
         switch ($play) {
             case "單數":
                 $parms_status = ($row['OddDouble'] == '雙數') ? '輸':'贏';
@@ -62,7 +59,7 @@ function handle()
                     echo $e->getMessage();
                 }
         }
-        
+
         $sql = "UPDATE `AdminRecord` SET `status`= :status WHERE `id` = :parms_id";
         $result = $db->prepare($sql);
         $result->bindParam(':status',$parms_status);
@@ -70,7 +67,6 @@ function handle()
         $result->execute();
     }
 }
-
 //core
 function countDown($totalTime)
 {
@@ -79,7 +75,6 @@ function countDown($totalTime)
         handle();
         sleep(10);  //10sec. 
         $time++;
-        
     }
 }
 countDown (1440000); //6mins x 40 times

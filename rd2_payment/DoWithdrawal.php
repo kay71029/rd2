@@ -2,11 +2,9 @@
 session_start();
 require("MySqlCconnect.php");
 header('Content-Type: text/html; charset=utf-8');
-
 $ac_id = $_SESSION['ac_id'];
 $ac_acount = $_POST["ac_acount"];
 $time = $_POST["time"];
-
 DoWithdrawal($ac_id, $ac_acount, $time);
 function DoWithdrawal($ac_id, $ac_acount, $time)
 {
@@ -22,7 +20,7 @@ function DoWithdrawal($ac_id, $ac_acount, $time)
                 $originalMoney = $data['ac_acount'];
                 $payMoney = $ac_acount;
                 $totalMoney = $originalMoney - $payMoney;
-                
+    
                 if ($originalMoney < $payMoney) {
                     echo "<script>alert('餘額不足');</script>";
                     header("Refresh:0.5; url = ShowAccountDetailPage.php");

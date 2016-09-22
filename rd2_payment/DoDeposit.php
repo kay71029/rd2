@@ -2,13 +2,10 @@
 session_start();
 require("MySqlCconnect.php");
 header('Content-Type: text/html; charset = utf-8');
-
 $ac_id = $_SESSION['ac_id'];
 $ac_acount = $_POST["ac_acount"];
 $time = $_POST["time"];
-
 DoWithdrawal($ac_id, $ac_acount, $time);
-
 function DoWithdrawal($ac_id, $ac_acount, $time)
 {
     if ($ac_acount != null) {
@@ -22,7 +19,6 @@ function DoWithdrawal($ac_id, $ac_acount, $time)
             $data = $result->fetch();
             $originalMoney = $data['ac_acount'];
             $saveMoney = $ac_acount;
-            
             $sql = "UPDATE `admin` SET `ac_acount` = `ac_acount` + :ac_acount WHERE"
                 . "`ac_id` = :ac_id";
             $result = $db->prepare($sql);
