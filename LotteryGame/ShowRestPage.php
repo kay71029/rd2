@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("MySqlCconnect.php");
+require("MySqlConnect.php");
 date_default_timezone_set("Asia/Taipei");
 function SelectUserAccount()
 {
