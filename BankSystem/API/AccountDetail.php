@@ -2,7 +2,6 @@
 header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set("Asia/Taipei");
 require('MySqlConnect.php');
-
 $id = $_POST["id"];
 CheckIdAccount($id);
 function CheckIdAccount($id)
@@ -12,7 +11,6 @@ function CheckIdAccount($id)
         exit();
     } 
     
-    //判斷帳號是否存在
     $db = DB();
     $sql = "SELECT * FROM `record` WHERE `id`= :id ORDER BY `record`.`number` DESC";
     $result = $db->prepare($sql);

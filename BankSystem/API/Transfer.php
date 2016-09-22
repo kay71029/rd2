@@ -3,21 +3,17 @@
 header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set("Asia/Taipei");
 require('MySqlConnect.php');
-
 $id = $_POST["id"];
 $date = date("Y-m-d");
 $time = date("H:i:s");
 $remark = $_POST["remark"];
 $type = $_POST["type"];
 $money = $_POST["money"];
-
 checkNull($id, $remark, $type, $money);
 checkUser($id);
 checkType($type);
 checkMoney($money);
 transfer($id, $date, $time, $remark, $type, $money);
-
-
 //判斷參數值是否漏填
 function checkNull($id, $remark, $type, $money)
 {
@@ -30,7 +26,6 @@ function checkNull($id, $remark, $type, $money)
     }
     
 }
-
 //確認帳號
 function checkUser($id)
 {
@@ -48,7 +43,6 @@ function checkUser($id)
     }
     
 }
-
 //判斷存款代號
 function checkType($type)
 {
@@ -59,7 +53,6 @@ function checkType($type)
     }
     
 }
-
  //判斷金錢格式
 function checkMoney($money)
 {
@@ -70,7 +63,6 @@ function checkMoney($money)
     }
     
 }
-
 function transfer($id, $date, $time, $remark, $type, $money)
 {
     switch($type)

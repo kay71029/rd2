@@ -2,37 +2,44 @@
 session_start();
 require("MySqlCconnect.php");
 header('Content-Type: text/html; charset = utf-8');
-
+$ac_account = $_POST["ac_acount"]; 
 $id = $_SESSION['ac_id'];
-$money = $_POST["money"];
-$remark = "轉換新台幣";
-$type = "出款";
-
-doDesposit($id, $money, $remark, $type);
-
-function doDesposit($id, $money, $remark, $type)
+$date = $_POST["time"];
+function checkDoDesposit($ac_account, $id, $date)
 {
-    $url = 'https://rd2-kay-yu.c9users.io/BankSystem/API/Transfer';
-    $fields = array(
-        'id'=>urlencode($id),
-        'remark'=>urlencode($remark),
-        'money'=>urlencode($money),
-        'type'=>urlencode($type)
-    );
-    
-    foreach ($fields as $key=>$value) { 
-        $fields_string .= $key.'='.$value.'&';
+    if ($ac_account != null) {
+        try {
+            $db->beginTransaction();
+            $sql = "SELECT * FROM `admin` WHERE `ac_id` = :ac_id FOR UPDATE";
+            $result = $db->prepare($sql);
+            $result->bindParam(':ac_id', $id);
+            $result->execute();
+            $data = $result->fetch();
+            $originalMoney = $data['ac_acount'];
+            $saveMoney = $ac_account;
+            $totalMoney = $originalMoney + $saveMoney;
+            $sql = "UPDATE `admin` SET `ac_acount` = `ac_acount` + :ac_acount WHERE"
+                . "`ac_id` = :ac_id";
+            $result = $db->prepare($sql);
+            $result->bindParam(':ac_acount', $saveMoney);
+            $result->bindParam(':ac_id', $id);
+            $result->execute();
+            $sql = "INSERT INTO `banker_detail`(`ac_id`, `type`, `money`, `date`, "
+                . "`blance`, `newBlance`) VALUES (:ac_id, 1, :money, :date, :blance, "
+                . ":newBlance)";
+            $result = $db->prepare($sql);
+            $result->bindParam(':ac_id', $id);
+            $result->bindParam(':money', $saveMoney);
+            $result->bindParam(':date', $date);
+            $result->bindParam(':blance', $originalMoney);
+            $result->bindParam(':newBlance', $totalMoney);
+            $result->execute();
+            $db->commit();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            $db->rollBack();
+        }
+        echo "新增成功";
+        header("Refresh:0.5; url = ShowAccountDetailPage.php");
     }
-    
-    rtrim($fields_string, '&');
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL, $url);
-    curl_setopt($ch,CURLOPT_POST, count($fields));
-    curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $result = curl_exec($ch);
-    $result2 = json_decode($result, true); 
-    curl_close($ch);
-    echo $result2['massage'];
-    header("Refresh:0.5; url = ShowAccountDetailPage.php");
 }
