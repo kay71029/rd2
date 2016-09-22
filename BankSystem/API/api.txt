@@ -1,0 +1,32 @@
+API呼叫方式
+GET：
+   JSON (https://rd1-memcache-kay-yu.c9users.io/rd3/API/API名稱?GET參數)
+
+1.新增會員 addUser
+    
+    參數名稱:id 會員帳號
+    例如:
+        回傳結果:{"id":"123","massage":"成功"}
+
+2.取得餘額 getUserBalance
+    
+    參數名稱:id 會員帳號
+    例如:
+        回傳結果:{"id":"123","massage":[{"account":"10000"}]}
+        
+3.轉帳 Transfer
+
+    參數名稱:id  會員帳號
+    參數名稱:type 存款代號為1 提款代號為0 
+    參數名稱:number 交易序號轉帳序號(唯一值)，避免重覆轉帳< 請用int(20)( 1~9223372036854775806)來做設定 >
+    參數名稱:money 轉帳額度(正整數)
+    例如:
+        回傳結果:{"id":"123","type":"1","number":"1","money":"500","massage":"存款成功"}
+
+4.轉帳確認 CheckId
+    參數名稱:id 會員帳號
+    參數名稱:number 交易序號轉帳序號
+    例如:
+        回傳結果:{"id":"123","number":"1","massage":"成功"}
+    
+ 

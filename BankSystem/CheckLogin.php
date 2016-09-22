@@ -37,10 +37,6 @@ if (!preg_match("/^([A-Za-z0-9]+)$/", $id)) {
                 $_SESSION['ac_id'] = $id;
                 echo "<script>alert('登入成功!'');</script>";
                 header("Refresh:0.5; url = ShowAccountDetailPage.php");
-
             }
-
         }
-
     }
-
