@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("MySqlCconnect.php");
+require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
 $times = $_POST["init-game-times"];
 $start_time = $_POST["init-game-start-time"];

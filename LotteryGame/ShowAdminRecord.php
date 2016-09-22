@@ -40,6 +40,9 @@ function ShowAdminRecord()
                     <li class = "active"><a href = "ShowWithdrawalPage.php">出款<span class = "sr-only">(current)</span></a></li>
                     <li class = "active"><a href = "ShowAccountDetailPage.php">查詢明細<span class = "sr-only">(current)</span></a></li>
                     <li class = "active"><a href = "ShowGamePage.php">開獎資訊<span class = "sr-only">(current)</span></a></li>
+                    <?php if($_SESSION['ac_limit'] == '1'):?>
+                    <li class = "active"><a href = "ShowInitGame.php">開獎設定<span class = "sr-only">(current)</span></a></li>
+                    <?php endif ?>
                 </ul>
                 <form action = "Logout.php">
                     <button class = "btn btn-default navbar-btn">登出</button>

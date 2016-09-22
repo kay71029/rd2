@@ -25,12 +25,15 @@ function checkLogin($id, $pw, $plen)
             $result->bindParam(':id', $id, PDO::PARAM_STR);
             $result->bindParam(':pw', $sqlpw, PDO::PARAM_STR);
             $result->execute();
+            $data = $result->fetch();
+            $userLimit = $data['ac_limit'];
             $count = $result->rowCount();
             if ($count !== 1) {
                 echo "<script>alert('登入失敗!');</script>";
                 header("Refresh:0.5; url = ShowLoginPage.php");
             } else {
                 $_SESSION['ac_id'] = $id;
+                $_SESSION['ac_limit'] = $userLimit;
                 echo "<script>alert('登入成功!');</script>";
                 header("Refresh:0.5; url = Main.php");
             }
