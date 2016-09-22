@@ -1,32 +1,24 @@
 <?php
-
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Taipei");
- 
-
 $id_code = substr(strip_tags(addslashes(trim($_POST['id_code']))),0,12);
 $bitOdd = substr(strip_tags(addslashes(trim($_POST['bitOdd']))),0,3);
 $bitDouble = substr(strip_tags(addslashes(trim($_POST['bitDouble']))),0,3);
 $bitBig = substr(strip_tags(addslashes(trim($_POST['bitBig']))),0,3);
 $bitSmall = substr(strip_tags(addslashes(trim($_POST['bitSmall']))),0,3);
-
 $id = $_SESSION['ac_id'];
 $date = date("Y-m-d");
 $time = date("H:i:s");
 $remark = "樂透遊戲--下注金額";
 $type = "出款";
-
-
-
 //判斷數字不能為0
 if ($bitOdd == 0 && $bitDouble == 0 && $bitBig == 0 && $bitSmall == 0) {
     echo "<script>alert('尚未下注金額');</script>";
     header("Refresh:0.5; url = Main.php");
     exit();
 }
-
 //檢查數字
 function checkNum($Num)
 {
@@ -36,23 +28,19 @@ function checkNum($Num)
         exit();
     }
 }
-
 checkNum($bitOdd);
 checkNum($bitDouble);
 checkNum($bitBig);
 checkNum($bitSmall);
-
 //金額不能大於500
 if ($bitOdd > 500 || $bitDouble > 500 || $bitBig > 500 || $bitSmall > 500) {
     echo "<script>alert('單筆下注不能大於500');</script>";
     header("Refresh:0.5; url = Main.php");
     exit();
 }
-
 $money = $bitOdd + $bitDouble + $bitBig + $bitSmall;
 doDesposit($id, $money, $remark, $type);
 DoRecord($id_code, $id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bitSmall);
-
 function doDesposit($id, $money, $remark, $type)
 {
     $url = 'https://rd2-kay-yu.c9users.io/BankSystem/API/Transfer';
@@ -78,9 +66,6 @@ function doDesposit($id, $money, $remark, $type)
     curl_close($ch);
     echo $showResult['message'];
 }
-
-
-
 function DoRecord($id_code, $id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bitSmall)
 {
     //計算賠率
@@ -88,7 +73,6 @@ function DoRecord($id_code, $id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bi
     $expBitDouble = floor($bitDouble * 1.5);
     $expBitBig = floor($bitBig * 1.5);
     $expBitSmall = floor($bitSmall * 1.5);
-    
     
     if ($bitOdd != 0) {
         $db = DB();

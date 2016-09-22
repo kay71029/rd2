@@ -2,15 +2,12 @@
 session_start();
 require("MySqlCconnect.php");
 header('Content-Type: text/html; charset=utf-8');
-
 $times = $_POST["init-game-times"];
 $start_time = $_POST["init-game-start-time"];
 $open_time = $_POST["init-game-open_time"];
 $fold_time = $_POST["init-game-fold_time"];
 $stop_time = $_POST["init-game-stop_time"];
-
 DoInitGame($times, $start_time, $open_time, $fold_time,$stop_time);
-
 function DoInitGame($times, $start_time, $open_time, $fold_time, $stop_time)
 {
     //判斷值不能是空值
@@ -34,7 +31,6 @@ function DoInitGame($times, $start_time, $open_time, $fold_time, $stop_time)
             $parms_fold_time = date("H:i:s",strtotime("+ ".($i * ($fold_time + $open_time + $stop_time) - ($stop_time + $open_time))." minutes", strtotime($start_time)));
             $parms_open_time = date("H:i:s",strtotime("+ ".($i * ($fold_time + $open_time + $stop_time) - $stop_time)." minutes", strtotime($start_time)));
             $parms_stop_time = date("H:i:s",strtotime("+ ".$i * ($fold_time + $open_time + $stop_time)." minutes", strtotime($start_time)));
-            
             try {
                 $db = DB();
                 $db->beginTransaction();

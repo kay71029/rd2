@@ -2,14 +2,11 @@
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
-
 $id = $_SESSION['ac_id'];
 $money = $_POST["money"];
 $remark = "樂透遊戲--金額入款";
 $type = "入款";
-
 doDesposit($id, $money, $remark, $type);
-
 function doDesposit($id, $money, $remark, $type)
 {
     $url = 'https://rd2-kay-yu.c9users.io/BankSystem/API/Transfer';

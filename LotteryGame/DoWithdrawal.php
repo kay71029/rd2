@@ -2,14 +2,11 @@
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset = utf-8');
-
 $id = $_SESSION['ac_id'];
 $money = $_POST["money"];
 $remark = "樂透遊戲--金額出款";
 $type = "出款";
-
 doWithdrawal($id, $money, $remark, $type);
-
 function doWithdrawal($id, $money, $remark, $type)
 {
     $url = 'https://rd2-kay-yu.c9users.io/BankSystem/API/Transfer';
@@ -23,7 +20,7 @@ function doWithdrawal($id, $money, $remark, $type)
     foreach ($fields as $key=>$value) { 
         $fields_string .= $key.'='.$value.'&';
     }
-    
+
     rtrim($fields_string, '&');
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL, $url);

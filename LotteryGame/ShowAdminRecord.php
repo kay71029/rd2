@@ -2,6 +2,7 @@
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
+$data = ShowAdminRecord();
 function ShowAdminRecord()
 {
      $db = DB();
@@ -12,8 +13,6 @@ function ShowAdminRecord()
     $data = $result->fetchAll();
     return $data;
 }
-$data = ShowAdminRecord();
-
 ?>
 <!DOCTYPE html>
 <html>

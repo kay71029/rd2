@@ -2,13 +2,11 @@
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
-
 $id = substr(strip_tags(addslashes(trim($_POST['ac_id']))),0,20);
 $pw = addslashes($_POST['ac_pw']);
 $plen = strlen($pw);
-//$type = 0;
-checkLogin($id, $pw, $plen , $type);
-function checkLogin($id, $pw,$plen)
+checkLogin($id, $pw, $plen);
+function checkLogin($id, $pw, $plen)
 {
     //帳號檢查
     if (!preg_match("/^([A-Za-z0-9]+)$/", $id)) {

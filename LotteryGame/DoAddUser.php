@@ -1,7 +1,6 @@
 <?php
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
-
 $id = substr(strip_tags(addslashes(trim($_POST['ac_id']))),0,20);
 $pw = addslashes($_POST['ac_pw']);
 $plen = strlen($pw);
@@ -13,7 +12,6 @@ function checkAddUser($id, $pw, $plen)
     if (!preg_match("/^([A-Za-z0-9]+)$/", $id)) {
         echo "<script>alert('帳號必須由數字及英文組成');</script>";
         header("Refresh:0.5; url = ShowAddUserPage.php");
-
     } else {
         $db = DB();
         $sql = "SELECT `ac_id` FROM `admin` WHERE `ac_id` = :id";
@@ -21,10 +19,8 @@ function checkAddUser($id, $pw, $plen)
         $result->bindParam(':id', $id, PDO::PARAM_STR);
         $result->execute();
         $OriginalUser = $result->fetchAll();
-        
         if ($id == $OriginalUser[0]['ac_id']) {
             echo "<script>alert('帳號重複');</script>";
-
             header("Refresh:0.5; url = ShowAddUserPage.php");
         } else {
             //密碼檢查
@@ -33,7 +29,6 @@ function checkAddUser($id, $pw, $plen)
                 header("Refresh:0.5; url = ShowAddUserPage.php");
             } else {
                 $Sqlpw = md5($pw);
-               
                 $sql = "INSERT INTO `admin`(`ac_id`, `ac_pw`) VALUES (:id, :pw)";
                 $result = $db->prepare($sql);
                 $result->bindParam(':id', $id, PDO::PARAM_STR);
@@ -46,7 +41,6 @@ function checkAddUser($id, $pw, $plen)
         }
     }
 }
-
 function AddUser($id)
 {
     $url = 'https://rd2-kay-yu.c9users.io/BankSystem/API/addUser';
