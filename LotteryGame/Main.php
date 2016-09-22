@@ -181,7 +181,7 @@ if ($data2 == null) {
                         <th>下注時間</th>
                         <th>玩法</th>
                         <th>下注金額</th>
-                        <th>期望值</th>
+                        <th>可贏金額</th>
                         <th>狀態</th>
                     </tr>
                     </thead>
