@@ -1,0 +1,11 @@
+檢查
+ps aux |grep Bac
+
+crontab
+開啟
+vi /etc/crontab
+設定排程時間
+30 9   1 * *   root    nohub php /home/ubuntu/workspace/LotteryGame/crontab/DoInitGame.php &
+31 9   1 * *   root    nohub php /home/ubuntu/workspace/LotteryGame/crontab/BackgroundGame.php &
+32 9   1 * *   root    nohub php /home/ubuntu/workspace/LotteryGame/crontab/BackgroundCheck.php &
+:wq
