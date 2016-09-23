@@ -49,8 +49,14 @@ require("MySqlConnect.php");
                             <input type = "number" value = '1' class = "form-control" name = "init-game-stop_time" placeholder = "停止時間" pattern = "[0-9]" title = "請輸入數字" required="required" min = "0">
                         </div>
                     </div>
-                    <button type = "submit" class = "btn btn-primary">存檔</button>
+                    <button type = "submit" class = "btn btn-primary">產生開獎期數</button>
                 </form>
+                <br>
+                <form method = "post" action = "test.php">
+                    <button type = "submit" class = "btn btn-primary" name ="excGame">執行開獎</button>
+                    <button type = "submit" class = "btn btn-primary" name ="excCheck">執行兌獎</button>
+                </form>
+                
             </div>
         </div>
     </div>
