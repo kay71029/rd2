@@ -2,6 +2,7 @@
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
+date_default_timezone_set("Asia/Taipei");
 $times = $_POST["init-game-times"];
 $start_time = $_POST["init-game-start-time"];
 $open_time = $_POST["init-game-open_time"];
