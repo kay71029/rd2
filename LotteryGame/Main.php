@@ -53,7 +53,7 @@ function ShowAdminRecord()
     $data = $result->fetchAll();
     return $data;
 }
-if ($data2 == null) {
+if ($data2 == null || $data[0]['lottery'] == '') {
     header("Location:ShowRestPage.php");
 }
 ?>
