@@ -53,7 +53,7 @@ function ShowAdminRecord()
     $data = $result->fetchAll();
     return $data;
 }
-if ($data2 == null || $data[0]['lottery'] == '') {
+if ($data2 == null || $data[0]['lottery'] != '') {
     header("Location:ShowRestPage.php");
 }
 ?>
@@ -116,6 +116,12 @@ if ($data2 == null || $data[0]['lottery'] == '') {
                 <div class="panel-body">
                     <div class="lead" id="clock"></div>
                 </div>
+            </div>
+            <input class="btn btn-primary" type="button" onclick="$('#showrules').toggle();" value="規則說明">
+            <div id="showrules" style="display:none">
+            <p class="lead">規則說明: 隨機取出5個範圍1~9且不重複的數字之總和設定玩法<br></p>
+            <p class="lead">玩法一: 押注單數/雙數 賠率1.5<br></p>
+            <p class="lead">玩法二: 押注比大小 大於20為大 賠率1.5<br></p>
             </div>
         </div>
     </div>
