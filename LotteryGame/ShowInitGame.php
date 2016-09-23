@@ -52,7 +52,7 @@ require("MySqlConnect.php");
                     <button type = "submit" class = "btn btn-primary">產生開獎期數</button>
                 </form>
                 <br>
-                <form method = "post" action = "test.php">
+                <form method = "post" action = "DoExcGameCheck.php">
                     <button type = "submit" class = "btn btn-primary" name ="excGame">執行開獎</button>
                     <button type = "submit" class = "btn btn-primary" name ="excCheck">執行兌獎</button>
                 </form>
