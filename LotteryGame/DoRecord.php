@@ -90,6 +90,7 @@ function DoRecord($id_code, $id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bi
     }
     
     if ($bitDouble != 0) {
+        $db = DB();
         $sql = "INSERT INTO `AdminRecord`(`id_code`, `ac_id`, `date`, `time`,
             `play`, `playMoney`,`winMoney`) VALUES 
             (:id_code, :ac_id, :date, :time,'雙數', :bitDouble, :expBitDouble)";
@@ -104,6 +105,7 @@ function DoRecord($id_code, $id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bi
     }
     
     if ($bitBig != 0) {
+        $db = DB();
         $sql = "INSERT INTO `AdminRecord`(`id_code`, `ac_id`, `date`, `time`,
             `play`, `playMoney`,`winMoney`) VALUES 
             (:id_code, :ac_id, :date, :time,'大', :bitBig, :expBitBig)";
@@ -118,6 +120,7 @@ function DoRecord($id_code, $id, $date, $time, $bitOdd, $bitDouble, $bitBig, $bi
     }
     
     if ($bitSmall != 0) {
+        $db = DB();
         $sql = "INSERT INTO `AdminRecord`(`id_code`, `ac_id`, `date`, `time`,
             `play`, `playMoney`,`winMoney`) VALUES 
             (:id_code, :ac_id, :date, :time,'小', :bitSmall, :expBitSmall)";
