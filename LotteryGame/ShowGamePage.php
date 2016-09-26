@@ -6,7 +6,7 @@ $data = ShowGame();
 function ShowGame()
 {
     $db = DB();
-    $sql = "SELECT * FROM  `LotteryNews` ORDER BY  `id` ASC ";
+    $sql = "SELECT * FROM  `LotteryNews` ORDER BY `date` ASC, `fold_time` ASC";
     $result = $db->prepare($sql);
     $result->execute();
     $data = $result->fetchAll();
