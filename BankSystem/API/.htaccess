@@ -1,4 +1,8 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+<<<<<<< HEAD
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+=======
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+>>>>>>> 15e142743fe1c813897a384af93193b173a59261
