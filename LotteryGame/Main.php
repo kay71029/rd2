@@ -2,6 +2,7 @@
 session_start();
 require("MySqlConnect.php");
 header('Content-Type: text/html; charset=utf-8');
+date_default_timezone_set("Asia/Taipei");
 $id = $_SESSION['ac_id'];
 $account = SelectUserAccount($id);
 $data2 = GetLastLotteryNews();
@@ -119,6 +120,8 @@ if ($data2 == null || $data[0]['lottery'] != '') {
             </div>
             <input class="btn btn-primary" type="button" onclick="$('#showrules').toggle();" value="規則說明">
             <div id="showrules" style="display:none">
+            <br>
+            <br>
             <p class="lead">規則說明: 隨機取出5個範圍1~9且不重複的數字之總和設定玩法<br></p>
             <p class="lead">玩法一: 押注單數/雙數 賠率1.5<br></p>
             <p class="lead">玩法二: 押注比大小 大於20為大 賠率1.5<br></p>
@@ -214,12 +217,8 @@ if ($data2 == null || $data[0]['lottery'] != '') {
     </div>
     <script src = "assets/js/jquery.js"></script>
     <script src = "assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.1.7.2.js"></script>
     <script type="text/javascript" src="assets/js/jquery.syotimer.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="//cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <style type="text/css">
         .starter-template {
           padding: 40px 15px;
@@ -238,17 +237,20 @@ if ($data2 == null || $data[0]['lottery'] != '') {
         }
     </style>
     <script type="text/javascript">
+    
+    $(function() {
+        
         $('[data-toggle="tooltip"]').tooltip();
             //確認是否已開獎
             var is_open = (<?PHP echo $data2['0']['IS_OPEN'] ?> > 0) ? true : false;
-            console.log(is_open);//fordebug
+            console.log('是否已經開獎-->'+is_open);//fordebug
             //根據是否開獎決定要以那個時間倒數
             var targetDateTime = new Date();
-            if(is_open){
+            if (is_open) {
                 $('#clock_title').text("已開獎，系統封牌中。請稍後再下注。");
                 $('#bitOk').prop('disabled',true);
                 targetDateTime = new Date(<?PHP echo '\''.$data2['0']['date'].' '.$data2['0']['stop_time'].'\''; ?>);
-            }else{
+            } else {
                 $('#clock_title').text("下注時間倒數");
                 $('#bitOk').prop('disabled',false);
                 targetDateTime = new Date(<?PHP echo '\''.$data2['0']['date'].' '.$data2['0']['open_time'].'\''; ?>);
@@ -265,9 +267,16 @@ if ($data2 == null || $data[0]['lottery'] != '') {
                 if(!is_open){
                      $('#bitOk').prop('disabled',false);
                 }
-                //重載畫面 
-                location.reload();
+
+                console.log("finish.countdown! please wait for 5 second...");
+                //reload after 5 second
+                setTimeout(function(){
+                   //重載畫面 
+                   location.reload();
+                }, 2500);  //2.500 = 2.5 second 
+                
             });
+    }); //end for jquery main function
     </script>
 </body>
 </html>
