@@ -53,11 +53,5 @@ function GetLastLotteryNews()
         </div>
     <script src = "assets/js/jquery.js"></script>
     <script src = "assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.1.7.2.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.syotimer.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="//cdn.rawgit.com/hilios/jQuery.countdown/2.2.0/dist/jquery.countdown.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 </body>
 </html>
